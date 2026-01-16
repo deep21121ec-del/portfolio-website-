@@ -161,32 +161,32 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
 
-
+//Commit Email Js instead using Form Backend
 //Email JS
-function sendEmail() {
-    var params = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      subject: document.getElementById("subject").value,
-      message: document.getElementById("message").value,
-    };
+// function sendEmail() {
+//     var params = {
+//       name: document.getElementById("name").value,
+//       email: document.getElementById("email").value,
+//       subject: document.getElementById("subject").value,
+//       message: document.getElementById("message").value,
+//     };
   
-  const serviceID = "service_q4ewhf4"
-  const templateID = "template_6eeztjf"
+//   const serviceID = "service_q4ewhf4"
+//   const templateID = "template_6eeztjf"
 
       
-  emailjs
-  .send(serviceID, templateID, params)
-  .then((res) => {
-    document.getElementById("name").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("subject").value = "";
-    document.getElementById("message").value = "";
-    console.log(res);
-    alert("Your Message Sent Successfully!!");
-  })
-  .catch((err) => console.log(error));
-  }
+//   emailjs
+//   .send(serviceID, templateID, params)
+//   .then((res) => {
+//     document.getElementById("name").value = "";
+//     document.getElementById("email").value = "";
+//     document.getElementById("subject").value = "";
+//     document.getElementById("message").value = "";
+//     console.log(res);
+//     alert("Your Message Sent Successfully!!");
+//   })
+//   .catch((err) => console.log(error));
+//   }
 
 
 // SCROLL REVEAL JS
@@ -205,3 +205,30 @@ ScrollReveal().reveal('.home__data, .about__description, .portfolio__container, 
 ScrollReveal().reveal('.section__title ,.section__subtitle, .qualification__tabs, .project, .heading' , {origin: 'top'});
 
 ScrollReveal().reveal('.skills-container, .skills__container' , {origin: 'bottom'});
+
+// ==================== CONTACT FORM (GOOGLE FORMS BACKEND) ====================
+
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("entry.837997279", document.getElementById("name").value);
+    formData.append("entry.340446469", document.getElementById("email").value);
+    formData.append("entry.984944949", document.getElementById("subject").value);
+    formData.append("entry.1716362146", document.getElementById("message").value);
+
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSeEh1J425AQdnTxxOWuRGcyYV1NofmHCdYuv58BmnD4lGZ3nQ/formResponse", {
+      method: "POST",
+      mode: "no-cors",
+      body: formData
+    }).then(() => {
+      alert("Your Message Sent Successfully!");
+      contactForm.reset();
+    }).catch(() => {
+      alert("Message failed. Try again.");
+    });
+  });
+}
